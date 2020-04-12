@@ -66,5 +66,54 @@ WHO_Europe <- subset(WHO, Region == "Europe")
 write.csv(WHO_Europe, "WHO_Europe")
 #remove a variable or data frame: rm( )
 
+#STATISTICAL FUNCTIONS
+
+#see the average value
+mean(WHO$Under15) #mean" is the average, where "median" is the "middle" value in the list of numbers.
+#standard deviation
+sd(WHO$Under15) #measure of how spread out numbers are
+#statiscal summary of just one variable
+summary(WHO$Under15)
+#which country has the minimal population under 15?
+which.min(WHO$Under15)
+#86 is the row number of the observation (Country)
+WHO$Country[86] #Japan has the minimal population under 15
+#which country has the maximal population under 15?
+which.max(WHO$Under15)
+WHO$Country[124] #Niger is the country with largest population under 15
+
+#PLOT AND SUMMARY
+
+#create a scatter plot: plot(x,y)
+#a scater plot is a mathematical diagram using Cartesian coordinates to display values for typically two variables for a set of data
+plot(WHO$GNI, WHO$FertilityRate) #countries with higher GNI (Gross National Income) have lower birth rate
+#use subset to identify the observations with specific conditions
+Outliers <- subset(WHO,GNI>10000 & FertilityRate>2.5)
+#how many rows of data in this subset
+nrow(Outliers) #7 countries meet this criteria
+#extract a few variables from a dataset
+Outliers[c("Country","GNI","FertilityRate")]
+
+#create a histogram
+#a histogram is an approximate representation of the distribution of numerical or categorical data
+hist(WHO$CellularSubscribers) #most frequent value of CellularSubscribers is around 100
+
+#create a box plot of LifeExpectancy sorted by Region
+boxplot(WHO$LifeExpectancy ~ WHO$Region)
+# boxplot is a method for graphically depicting groups of numerical data through their quartiles
+#give a new labels to any of the plots by adding a few argument
+boxplot(WHO$LifeExpectancy ~ WHO$Region, xlab = "", ylab = "Life Expectancy", main = "Life Expectancy of Countries by Region")
+#write code faster by copying the previous one and modify
+
+#have a look at the summary table
+table(WHO$Region) #tables work well for variables with only a few possible values
+#use tapply function to see nummerical variables
+tapply(WHO$Over60, WHO$Region, mean) 
+#this splits  the observations by Region and then computes the mean of the variable Over60
+tapply(WHO$LiteracyRate, WHO$Region, min) #NA represents the missing value in the data. 
+#remove NA by setting into TRUE value
+tapply(WHO$LiteracyRate, WHO$Region, min, na.rm = TRUE)
+
+
 #run the entire code: Ctrl+Shift+Enter 
 #run the entire code without showing the results on the Console: Ctrl+Shift+s
